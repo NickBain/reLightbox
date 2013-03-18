@@ -16,7 +16,6 @@
 
 
 	var defaultProperties = {
-		auto: true,
 		overlayDiv: 'reLightboxOverlay',
 		innerDiv: 'reLightboxPopup',
 		imageId: 'reLightboxImg',

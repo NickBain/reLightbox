@@ -8,19 +8,23 @@
 	</head>
 	
 	<body lang="en">
-
+		<h1>Gallery 1</h2>
 		<a href="http://placehold.it/910x100" class="myLightBox"><img src="http://placehold.it/200x200"/></a>
 		
 		<a href="http://placehold.it/910x600" class="myLightBox"><img src="http://placehold.it/200x200"/></a>
 		
+		<h1>Gallery 2</h2>
+			
 		<a href="http://placehold.it/920x600" class="myLightBox2"><img src="http://placehold.it/200x200"/></a>
 		
-		<a href="http://placehold.it/1030x1255" class="myLightBox"><img src="http://placehold.it/200x200"/></a>
+		<a href="http://placehold.it/1030x1255" class="myLightBox2"><img src="http://placehold.it/200x200"/></a>
+		
+		<a href="http://placehold.it/200x255" class="myLightBox2"><img src="http://placehold.it/200x200"/></a>
 		
 	
-		<script src="rLightbox.js"></script> 
+		<script src="reLightbox-min.js"></script> 
 		<script>
-			var lb = reLightbox("a.myLightBox", {fullscreen: false});
+			var lb = reLightbox(".myLightBox", {fullscreen: true, preload: true});
 			var lb2 = reLightbox(".myLightBox2");
 		</script>
 		
