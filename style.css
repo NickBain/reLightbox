@@ -1,0 +1,57 @@
+#reLightboxOverlay{
+	width:100%;
+	height:100%;
+	background-color:gray;
+	visibility:hidden;
+	position:fixed;
+	top:0;
+	left:0;
+	cursor: pointer;
+	z-index:99;
+	-webkit-transition: opacity 0.5s ease-in;
+	-moz-transition: opacity 0.5s ease-in;
+	-o-transition: opacity 0.5s ease-in;
+}
+
+#reLightboxPopup
+  {
+	max-width:100%;
+	max-height:100%;
+	width:100%;
+	position: fixed;
+	text-align: center;
+	top: 0;
+	left: 0;
+	height:100%;
+	visibility:hidden;
+	z-index:999;
+	background: url("loading.gif")  no-repeat; 
+	background-position:50% 2em;
+	padding-top:1em;
+	
+  }
+
+#reLightboxPopup > img{
+	display:inline-block;
+	text-align: center;
+	max-width:90%;
+	max-height:95%;	
+	z-index:9999;
+	
+}
+
+.rlb_visible{
+		opacity: 0.8 !important;
+		visibility:visible !important;
+}
+
+.rlb_invisible{
+	  opacity: 0 !important;
+	
+}
+
+#reLightboxImg{	
+	z-index:1 !important;
+	opacity:1;
+	filter: alpha(opacity = 1);
+}
