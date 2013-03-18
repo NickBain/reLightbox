@@ -15,6 +15,9 @@
 	}
 
 
+	/**
+	 * @constructor
+	 */
 	var defaultProperties = {
 		overlayDiv: 'reLightboxOverlay',
 		innerDiv: 'reLightboxPopup',
@@ -24,7 +27,9 @@
 		keyboardNav : true
 	};
 
-
+	
+	var sharedListener = null;
+	
 	var lightbox = function(elem, customProperites){
 		
 		return new _lightbox(elem, customProperites);
@@ -39,10 +44,7 @@
 		this.element = elem;
 		this.currentIndex = false;
 
-		
-		var _this = this;
 		if(customProperites){
-			
 			for (var property in customProperites){
 				this.properties[property] = customProperites[property];
 			}
@@ -65,16 +67,15 @@
 			this._setInnerHTML(this.lightboxInner);
 
 			var _this = this;
-			
-			
-			var clickEvent = function(event) {
+			var clickHideEvent = function(event) {
 			       _this.hide(event);
-			    };
+			};
+			
 			
 			if (this.lightboxInner.addEventListener){
-			  		this.lightboxInner.addEventListener("click", clickEvent, false);
+			  		this.lightboxInner.addEventListener("click", clickHideEvent, false);
 			} else if (this.lightboxInner.attachEvent){
-					this.lightboxInner.attachEvent("click", clickEvent);
+					this.lightboxInner.attachEvent("click", clickHideEvent);
 			}
 
 			var elementList =  document.querySelectorAll(this.element);
@@ -83,15 +84,20 @@
 			if(this.properties.preload)
 				this._preload(this.nodeList);
 				
+			
+			var clickShowEvent = function( count ) {
+				    var handler = function(event) {
+						event.preventDefault();
+				        _this.show(count);
+				    };
+				    return handler;
+			};
+				
 			var forEach = Array.prototype.forEach;
 			for (var i = 0; i < this.nodeList.length; ++i) {
-				var count = i;
-			  	this.nodeList[i].addEventListener('click', 
-				function(event) {
-					event.preventDefault();
-				      _this.show( count );
-				    }
-				, false);
+				var counter = i;
+				
+			  	this.nodeList[i].addEventListener('click', clickShowEvent( counter ), false);
 
 			}
 		},
@@ -114,7 +120,7 @@
 		},
 		
 		show : function(index , imagesrc ){
-			
+			console.log(index);
 			var src = (imagesrc)  ? imagesrc : this.nodeList[index].href;
 			this.currentIndex = (typeof index ==='undefined') ? false : index;
 				
@@ -132,11 +138,11 @@
 				}
 				img.onerror = function() {
 					console.log('Error fetching image');
-					_this.hide();
+					_this.hide(null);
 				};
 				img.onabort = function() {
 					console.log('Abort loading image');
-					_this.hide();
+					_this.hide(null);
 				};
 				img.src = src
 				this.imageElement = imageElem;
@@ -169,11 +175,10 @@
 			};
 			
 			document.addEventListener('keyup', myFunct, false);
-			this.keyListener = myFunct;
+			sharedListener = myFunct;
 		},
 		_respondToKeyPress : function(event, _this){
-			
-			if(1 > _this.nodeList.length)
+			if(_this.nodeList.length < 1)
 				return;
 					
 			if(event.keyCode == 39 && _this.currentIndex !== false) {
@@ -198,7 +203,7 @@
 		
 		_removeKeyBoardListener : function(){
 				if(!this.properties.keyboardNav)return;
-				document.removeEventListener("keyup", this.keyListener);
+				document.removeEventListener("keyup", sharedListener);
 				
 		},
 		_goFullscreen : function(){
@@ -241,6 +246,6 @@
 		}
 	};
 
-	window.reLightbox = lightbox;
+	window.resLightbox = lightbox;
 
 })(window);
