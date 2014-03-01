@@ -65,10 +65,10 @@
 			this.keyListener;
 			
 			this._setInnerHTML(this.lightboxInner);
-
+			this.hide();	
 			var _this = this;
 			var clickHideEvent = function(event) {
-			       _this.hide(event);
+			       _this.fadeOut(event);
 			};
 			
 			
@@ -120,7 +120,6 @@
 		},
 		
 		show : function(index , imagesrc ){
-			console.log(index);
 			var src = (imagesrc)  ? imagesrc : this.nodeList[index].href;
 			this.currentIndex = (typeof index ==='undefined') ? false : index;
 				
@@ -128,13 +127,14 @@
 			if(this.lightboxInner){
 
 				this.lightboxOverlay.className = 'rlb_visible';			
-				this.lightboxInner.style.visibility = 'visible';
+				
 				var img = new Image();
 
 				var _this = this;
 
 				img.onload = function() { 
 					imageElem.src = this.src;
+					_this.lightboxInner.style.visibility = 'visible';
 				}
 				img.onerror = function() {
 					console.log('Error fetching image');
@@ -155,8 +155,24 @@
 			}
 		},
 
-		hide : function(event){
+		fadeOut : function(event){
+
+			if(this.lightboxInner){
+				this.lightboxOverlay.className = 'rlb_fade';
 				
+			}
+			var _this = this;
+			var _hide = function(){
+				_this.hide(event);
+				//_this.lightboxInner.style.visibility = 'hidden';
+
+			};
+			window.setTimeout(_hide, '490' );
+
+		},
+
+		hide : function(event){
+		    
 			if(this.lightboxInner){
 				this.lightboxOverlay.className = 'rlb_invisible';
 				this.lightboxInner.style.visibility = 'hidden';
